@@ -98,9 +98,16 @@ class TagsGroup extends React.Component {
       ),
     };
     
+    const key = `${tagType}-${tagText}`;
+    
     return(
-      <View style={[styles.tagContainer, props.tagContainerStyle, {...borderStyle, ...sharedContainerStyles}]}>
-        <Text style={[styles.tagText, styles.tagTextStyle, {fontSize: charSize}]}>
+      <View 
+        key={`tagContainer-${key}`}
+        style={[styles.tagContainer, props.tagContainerStyle, {...borderStyle, ...sharedContainerStyles}]}
+      >
+        <Text
+          key={`tagText-${key}`}
+          style={[styles.tagText, styles.tagTextStyle, {fontSize: charSize}]}>
           {tagText}
         </Text>
       </View>
@@ -129,7 +136,10 @@ class TagsGroup extends React.Component {
       row += 1;
       //encapsulate cols inside row comp
       compRows.push(
-        <View style={[styles.rowContainer, {justifyContent}]}>
+        <View 
+          key={`row-${row}`}
+          style={[styles.rowContainer, {justifyContent}]}
+        >
           {compCols}
         </View>
       );
@@ -267,9 +277,10 @@ export default class App extends React.Component {
   });  
 
   async componentDidMount(){
-    const worksURL = 'https://archiveofourown.org/tags/%E5%83%95%E3%81%AE%E3%83%92%E3%83%BC%E3%83%AD%E3%83%BC%E3%82%A2%E3%82%AB%E3%83%87%E3%83%9F%E3%82%A2%20%7C%20Boku%20no%20Hero%20Academia%20%7C%20My%20Hero%20Academia/works';
-    const works = await AO3Parser.getWorksFromURL(worksURL);
-    console.log(works);
+    //const worksURL = 'https://archiveofourown.org/tags/%E5%83%95%E3%81%AE%E3%83%92%E3%83%BC%E3%83%AD%E3%83%BC%E3%82%A2%E3%82%AB%E3%83%87%E3%83%9F%E3%82%A2%20%7C%20Boku%20no%20Hero%20Academia%20%7C%20My%20Hero%20Academia/works';
+    //const works = await AO3Parser.getWorksFromURL(worksURL);
+    //Clipboard.setString(JSON.stringify(works));
+    //console.log(works);
   };
 
   render() {
@@ -277,6 +288,11 @@ export default class App extends React.Component {
 
     return (
       <ScrollView style={styles.rootContainer}>
+        <TagsGroup
+          containerStyle={{alignSelf: 'center', marginBottom: 300}}
+          containerWidth={screenWidth - 20}
+          tags={["Demon slayer is lit", "kimetsu no yaiba is amazing", "i still love bhna thooo", "mha and kny are both good", "stan tanjiro", "stan izuku", "izuku and tanjiro are both good boys uwu", "anime of the YEAR", "the animation?", "art style??", "so mf good", "my crops are watered", "I have been BLESSED by the anime gods", "thanks for the food", "i ship deku and kacchan", "fite me", "NEZUKO IS BEST GIRL", "not to be dramatic, but would die for her", "protect her at all cost", "nezuko deserves the world", "crying", "ya'll can clown me but idc", "i'm fuji and weaboo trash butttt ther's so much good anime this season and i'm like????", "i dont have time bb", "su is also good", "have you SEEN the new movie??", "pink diamond is trash", "i hate rose, fuck her", "spinel is baby", "spinel deserves love", "um greg universe", "also the mermaid sisters are fine af", "fucking bullshit song goes hardddd", "they deserved to WIN DAMN IT", "watch carole and tuesday", "its also good btw", "it's on netflix, so no excuses bb"]}
+        />
         <TagsGroup
           containerStyle={{alignSelf: 'center', marginBottom: 300}}
           containerWidth={screenWidth - 20}
