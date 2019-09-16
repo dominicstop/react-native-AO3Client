@@ -32,6 +32,7 @@ PODS:
     - DoubleConversion
     - glog
   - glog (0.3.5)
+  - hpple (0.2.0)
   - React (0.59.10):
     - React/Core (= 0.59.10)
   - React/Core (0.59.10):
@@ -93,6 +94,7 @@ PODS:
     - React
   - RNScreens (1.0.0-alpha.22):
     - React
+  - SwiftSoup (2.2.0)
   - UMBarCodeScannerInterface (3.0.0)
   - UMCameraInterface (3.0.0)
   - UMConstantsInterface (3.0.0)
@@ -108,6 +110,8 @@ PODS:
     - UMFontInterface
   - UMSensorsInterface (3.0.0)
   - UMTaskManagerInterface (3.0.0)
+  - WKZombie (1.1.0):
+    - hpple (= 0.2.0)
   - yoga (0.59.10.React)
 
 DEPENDENCIES:
@@ -124,6 +128,7 @@ DEPENDENCIES:
   - EXWebBrowser (from `../node_modules/expo-web-browser/ios`)
   - Folly (from `../node_modules/react-native/third-party-podspecs/Folly.podspec`)
   - glog (from `../node_modules/react-native/third-party-podspecs/glog.podspec`)
+  - hpple
   - React/Core (from `../node_modules/react-native`)
   - React/CxxBridge (from `../node_modules/react-native`)
   - React/DevSupport (from `../node_modules/react-native`)
@@ -141,6 +146,7 @@ DEPENDENCIES:
   - RNGestureHandler (from `../node_modules/react-native-gesture-handler/RNGestureHandler.podspec`)
   - RNReanimated (from `../node_modules/react-native-reanimated/RNReanimated.podspec`)
   - RNScreens (from `../node_modules/react-native-screens`)
+  - SwiftSoup
   - UMBarCodeScannerInterface (from `../node_modules/unimodules-barcode-scanner-interface/ios`)
   - UMCameraInterface (from `../node_modules/unimodules-camera-interface/ios`)
   - UMConstantsInterface (from `../node_modules/unimodules-constants-interface/ios`)
@@ -153,11 +159,15 @@ DEPENDENCIES:
   - "UMReactNativeAdapter (from `../node_modules/@unimodules/react-native-adapter/ios`)"
   - UMSensorsInterface (from `../node_modules/unimodules-sensors-interface/ios`)
   - UMTaskManagerInterface (from `../node_modules/unimodules-task-manager-interface/ios`)
+  - WKZombie
   - yoga (from `../node_modules/react-native/ReactCommon/yoga`)
 
 SPEC REPOS:
   https://github.com/cocoapods/specs.git:
     - boost-for-react-native
+    - hpple
+    - SwiftSoup
+    - WKZombie
 
 EXTERNAL SOURCES:
   DoubleConversion:
@@ -258,10 +268,12 @@ SPEC CHECKSUMS:
   EXWebBrowser: e8dea719b02532bf25cb84e6dfef014e10e1206c
   Folly: de497beb10f102453a1afa9edbf8cf8a251890de
   glog: aefd1eb5dda2ab95ba0938556f34b98e2da3a60d
+  hpple: 3b765f96fc2cd56ad1a49aef6f7be5cb2aa64b57
   React: 36d0768f9e93be2473b37e7fa64f92c1d5341eef
   RNGestureHandler: 5329a942fce3d41c68b84c2c2276ce06a696d8b0
   RNReanimated: 7a52c90473b5e81c13408d40d797b98387eaddde
   RNScreens: 720a9e6968beb73e8196239801e887d8401f86ed
+  SwiftSoup: 230991361c5ba249d140161860a3864a28b63860
   UMBarCodeScannerInterface: ea7d9374318227d7d86c8fc53fa03cb06e3e0f99
   UMCameraInterface: be7baefbdf7d3ac010f3681da83ccd0021663eca
   UMConstantsInterface: 4d8135cd90f5bfbaa55211040a1cd7e8296d1b6c
@@ -274,8 +286,9 @@ SPEC CHECKSUMS:
   UMReactNativeAdapter: 60ee0aa561710150b3b1b70e56dbbdec45e2ad22
   UMSensorsInterface: 465f125c55933673acc766f9e6bffd654aaa11ae
   UMTaskManagerInterface: 3962594bfee05f30eab5694814cfd8e92dd670a6
+  WKZombie: bde6786b3c76f4336959d849b365c274d61d8286
   yoga: 684513b14b03201579ba3cee20218c9d1298b0cc
 
-PODFILE CHECKSUM: 0e1eb53705be13c2bd7d29d610281c829b9d1d53
+PODFILE CHECKSUM: 89bb11cb41115d3c21d1b76cffeb60c8a8cd2ca3
 
 COCOAPODS: 1.7.5

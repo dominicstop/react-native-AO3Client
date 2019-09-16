@@ -7,13 +7,13 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		10AB6948A8D8568E8C418A40 /* libPods-AO3Client.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 683EDECDC8A39C6136F582A0 /* libPods-AO3Client.a */; };
 		13B07FBC1A68108700A75B9A /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 13B07FB01A68108700A75B9A /* AppDelegate.m */; };
 		13B07FBD1A68108700A75B9A /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = 13B07FB11A68108700A75B9A /* LaunchScreen.xib */; };
 		13B07FBF1A68108700A75B9A /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 13B07FB51A68108700A75B9A /* Images.xcassets */; };
 		13B07FC11A68108700A75B9A /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 13B07FB71A68108700A75B9A /* main.m */; };
 		B6D3A90D232F75080021C34A /* nativeModules.swift in Sources */ = {isa = PBXBuildFile; fileRef = B6D3A90C232F75080021C34A /* nativeModules.swift */; };
 		B6D3A90F232F75250021C34A /* nativeModules.m in Sources */ = {isa = PBXBuildFile; fileRef = B6D3A90E232F75250021C34A /* nativeModules.m */; };
-		CD514A2772B0E93788C7EB20 /* libPods-AO3Client.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 38BCF8B614B2804C3B0B3B4C /* libPods-AO3Client.a */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -26,12 +26,12 @@
 		13B07FB61A68108700A75B9A /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = Info.plist; path = AO3Client/Info.plist; sourceTree = "<group>"; };
 		13B07FB71A68108700A75B9A /* main.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = main.m; path = AO3Client/main.m; sourceTree = "<group>"; };
 		2D16E6891FA4F8E400B85C8A /* libReact.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; path = libReact.a; sourceTree = BUILT_PRODUCTS_DIR; };
-		38BCF8B614B2804C3B0B3B4C /* libPods-AO3Client.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-AO3Client.a"; sourceTree = BUILT_PRODUCTS_DIR; };
-		7801E906FCC2F5B91852AF4E /* Pods-AO3Client.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-AO3Client.debug.xcconfig"; path = "Target Support Files/Pods-AO3Client/Pods-AO3Client.debug.xcconfig"; sourceTree = "<group>"; };
+		6429C770FE4F02F061C7437A /* Pods-AO3Client.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-AO3Client.release.xcconfig"; path = "Target Support Files/Pods-AO3Client/Pods-AO3Client.release.xcconfig"; sourceTree = "<group>"; };
+		683EDECDC8A39C6136F582A0 /* libPods-AO3Client.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-AO3Client.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		B6D3A90B232F75080021C34A /* AO3Client-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "AO3Client-Bridging-Header.h"; sourceTree = "<group>"; };
 		B6D3A90C232F75080021C34A /* nativeModules.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = nativeModules.swift; sourceTree = "<group>"; };
 		B6D3A90E232F75250021C34A /* nativeModules.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = nativeModules.m; sourceTree = "<group>"; };
-		CC43E0BBA2733A6F2ACC5FB5 /* Pods-AO3Client.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-AO3Client.release.xcconfig"; path = "Target Support Files/Pods-AO3Client/Pods-AO3Client.release.xcconfig"; sourceTree = "<group>"; };
+		C238AC59796F3BFDC34F40C2 /* Pods-AO3Client.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-AO3Client.debug.xcconfig"; path = "Target Support Files/Pods-AO3Client/Pods-AO3Client.debug.xcconfig"; sourceTree = "<group>"; };
 		ED297162215061F000B7C4FE /* JavaScriptCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = JavaScriptCore.framework; path = System/Library/Frameworks/JavaScriptCore.framework; sourceTree = SDKROOT; };
 		ED2971642150620600B7C4FE /* JavaScriptCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = JavaScriptCore.framework; path = Platforms/AppleTVOS.platform/Developer/SDKs/AppleTVOS12.0.sdk/System/Library/Frameworks/JavaScriptCore.framework; sourceTree = DEVELOPER_DIR; };
 /* End PBXFileReference section */
@@ -41,7 +41,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				CD514A2772B0E93788C7EB20 /* libPods-AO3Client.a in Frameworks */,
+				10AB6948A8D8568E8C418A40 /* libPods-AO3Client.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -69,7 +69,7 @@
 				ED297162215061F000B7C4FE /* JavaScriptCore.framework */,
 				ED2971642150620600B7C4FE /* JavaScriptCore.framework */,
 				2D16E6891FA4F8E400B85C8A /* libReact.a */,
-				38BCF8B614B2804C3B0B3B4C /* libPods-AO3Client.a */,
+				683EDECDC8A39C6136F582A0 /* libPods-AO3Client.a */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -106,8 +106,8 @@
 		86BD403E2E76E7F2017157B2 /* Pods */ = {
 			isa = PBXGroup;
 			children = (
-				7801E906FCC2F5B91852AF4E /* Pods-AO3Client.debug.xcconfig */,
-				CC43E0BBA2733A6F2ACC5FB5 /* Pods-AO3Client.release.xcconfig */,
+				C238AC59796F3BFDC34F40C2 /* Pods-AO3Client.debug.xcconfig */,
+				6429C770FE4F02F061C7437A /* Pods-AO3Client.release.xcconfig */,
 			);
 			path = Pods;
 			sourceTree = "<group>";
@@ -129,7 +129,7 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 13B07F931A680F5B00A75B9A /* Build configuration list for PBXNativeTarget "AO3Client" */;
 			buildPhases = (
-				57B9C21712FC04D2096E9153 /* [CP] Check Pods Manifest.lock */,
+				343D71F4F99D347042F5BA25 /* [CP] Check Pods Manifest.lock */,
 				FD4C38642228810C00325AF5 /* Start Packager */,
 				13B07F871A680F5B00A75B9A /* Sources */,
 				13B07F8C1A680F5B00A75B9A /* Frameworks */,
@@ -155,6 +155,7 @@
 				ORGANIZATIONNAME = Facebook;
 				TargetAttributes = {
 					13B07F861A680F5B00A75B9A = {
+						DevelopmentTeam = ZC7A6XV8GR;
 						LastSwiftMigration = 1030;
 					};
 				};
@@ -205,7 +206,7 @@
 			shellPath = /bin/sh;
 			shellScript = "export NODE_BINARY=node\n../node_modules/react-native/scripts/react-native-xcode.sh";
 		};
-		57B9C21712FC04D2096E9153 /* [CP] Check Pods Manifest.lock */ = {
+		343D71F4F99D347042F5BA25 /* [CP] Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -277,12 +278,13 @@
 /* Begin XCBuildConfiguration section */
 		13B07F941A680F5B00A75B9A /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 7801E906FCC2F5B91852AF4E /* Pods-AO3Client.debug.xcconfig */;
+			baseConfigurationReference = C238AC59796F3BFDC34F40C2 /* Pods-AO3Client.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
 				CURRENT_PROJECT_VERSION = 1;
 				DEAD_CODE_STRIPPING = NO;
+				DEVELOPMENT_TEAM = ZC7A6XV8GR;
 				INFOPLIST_FILE = AO3Client/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				OTHER_LDFLAGS = (
@@ -290,7 +292,7 @@
 					"-ObjC",
 					"-lc++",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = "org.reactjs.native.example.$(PRODUCT_NAME:rfc1034identifier)";
+				PRODUCT_BUNDLE_IDENTIFIER = "com.DominicGo.react-native-AO3Client";
 				PRODUCT_NAME = AO3Client;
 				SWIFT_OBJC_BRIDGING_HEADER = "Native Modules/AO3Client-Bridging-Header.h";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
@@ -301,11 +303,12 @@
 		};
 		13B07F951A680F5B00A75B9A /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = CC43E0BBA2733A6F2ACC5FB5 /* Pods-AO3Client.release.xcconfig */;
+			baseConfigurationReference = 6429C770FE4F02F061C7437A /* Pods-AO3Client.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
 				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = ZC7A6XV8GR;
 				INFOPLIST_FILE = AO3Client/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				OTHER_LDFLAGS = (
@@ -313,7 +316,7 @@
 					"-ObjC",
 					"-lc++",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = "org.reactjs.native.example.$(PRODUCT_NAME:rfc1034identifier)";
+				PRODUCT_BUNDLE_IDENTIFIER = "com.DominicGo.react-native-AO3Client";
 				PRODUCT_NAME = AO3Client;
 				SWIFT_OBJC_BRIDGING_HEADER = "Native Modules/AO3Client-Bridging-Header.h";
 				SWIFT_VERSION = 5.0;

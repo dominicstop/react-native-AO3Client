@@ -1,6 +1,21 @@
+source 'https://github.com/CocoaPods/Specs.git'
+
 platform :ios, '10.0'
 
 require_relative '../node_modules/react-native-unimodules/cocoapods'
+
+# pods that need to use use_framework!
+static_framework = ['hpple', 'WKZombie', 'SwiftSoup']
+
+pre_install do |installer|
+  installer.pod_targets.each do |pod|
+    if static_framework.include?(pod.name)
+      def pod.build_type;
+        Pod::Target::BuildType.static_framework
+      end
+    end
+  end
+end
 
 target 'AO3Client' do
   # Pods for AO3Client
@@ -30,6 +45,12 @@ target 'AO3Client' do
   pod 'RNReanimated', :podspec => '../node_modules/react-native-reanimated/RNReanimated.podspec'
   pod 'RNScreens', :path => '../node_modules/react-native-screens'
 
-  use_unimodules!
+  use_unimodules!(exclude: ['expo-facebook'])
+  
+  # install wkzombie's depedency
+  pod 'hpple'
+
+  pod 'WKZombie'
+  pod 'SwiftSoup'
 
 end
