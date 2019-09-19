@@ -2,10 +2,11 @@ import React, { Fragment } from 'react';
 import PropTypes from 'prop-types';
 import { Platform, StyleSheet, Text, View, Clipboard, ScrollView, Dimensions, TextInput, TouchableOpacity, FlatList } from 'react-native';
 
-import { WorkList } from './src/components/WorkList';
+import { WorkList } from 'components/WorkList';
 
-import AO3Parser from './src/native_modules/AO3Parser';
-import { WorkItem } from './src/models/workModel';
+import AO3Parser from 'native_modules/AO3Parser';
+import { WorkItem } from 'models/workModel';
+
 import { BNHAWork01 } from './test_data/workList';
 
 export default class App extends React.Component {
