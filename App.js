@@ -1,18 +1,47 @@
 import React, { Fragment } from 'react';
 import PropTypes from 'prop-types';
-import { Platform, StyleSheet, Text, View, Clipboard, ScrollView, Dimensions  } from 'react-native';
+import { Platform, StyleSheet, Text, View, Clipboard, ScrollView, Dimensions, TextInput, TouchableOpacity } from 'react-native';
 
 import AO3Parser from './src/native_modules/AO3Parser';
+import { WorkItem } from './src/models/workModel';
+import { replacePropertiesWithNull } from './src/functions/helpers';
 
 const { width: screenWidth } = Dimensions.get('screen');
+
+class TagsItem {
+  static structure = {
+    text : '',
+    value: '',
+    containerStyle: {},
+    textStyle     : {},
+  };
+
+  static wrap(data = TagsItem.structure){
+    return {
+      //assign default properties w/ default values (so that vscode can infer types)
+      ...TagsItem.structure,
+      //overwrite all default values and replace w/ null (for assigning default values with ||)
+      ...replacePropertiesWithNull(TagsItem.structure),
+      //combine with obj from param
+      ...(data || {}),
+    };
+  };
+
+  static wrapArray(items = [TagsItem.structure]){
+    return items.map((item) => 
+      TagsItem.wrap(item)
+    );
+  };
+};
+
 
 class TagsGroup extends React.Component {
   static propTypes = {
     //required props
     tags          : PropTypes.array .isRequired,
     containerWidth: PropTypes.number.isRequired,
-    //options
-    enableCustomStylePerTag: PropTypes.bool,
+    //events
+    onPressTag: PropTypes.func,
     //style props
     containerStyle   : PropTypes.object,
     rowContainerStyle: PropTypes.object,
@@ -56,9 +85,10 @@ class TagsGroup extends React.Component {
     NLINE: 'NLINE', // \n
   };
 
-  createTagComp = (tagType = '', tagText = '') => {
+  createTagComp = (tagType = '', tagText = '', tagNumber = 0, tagIndex = 0) => {
     const { styles, TAG_TYPE } = TagsGroup;
-    const { charSize, seperatorSize, innerPadding, ...props } = this.props;
+    const { charSize, seperatorSize, innerPadding, tags, onPressTag, ...props } = this.props;
+    const currentTag = TagsItem.wrap(tags[tagNumber]);
     
     const charWidth = (charSize / 1.5);
     const radius    = (charSize / 2);
@@ -98,32 +128,80 @@ class TagsGroup extends React.Component {
       ),
     };
     
-    const key = `${tagType}-${tagText}`;
+    const key          = `${tagIndex}-${tagText}`;
+    const tagIDGroup   = `tagGroup-${tagNumber}`;
+    const tagIDHandler = `onPressTag-${tagNumber}`;
+
+    if(this[tagIDGroup] == undefined){
+      //init and register to tag group
+      this[tagIDGroup] = [key];
+
+    } else {
+      //add tag to tag group
+      this[tagIDGroup].push(key);
+    };
+
+    if(this[tagIDHandler] == undefined){
+      this[tagIDHandler] = () => {
+        onPressTag && onPressTag(currentTag);
+      };
+    };
+
+    const onPressIn = () => {
+      const tagGroup = this[tagIDGroup];
+      if(tagGroup.length > 1){
+        tagGroup.forEach(tagRef => {
+          const ref = this[tagRef];
+          ref && ref.setOpacityTo(0.5, 100);
+        });
+      };
+    };
+
+    const onPressOut = () => {
+      const tagGroup = this[tagIDGroup];
+      if(tagGroup.length > 1){
+        tagGroup.forEach(tagRef => {
+          const ref = this[tagRef];
+          ref && ref.setOpacityTo(1, 100);
+        });
+      };
+    };
     
     return(
-      <View 
+      <TouchableOpacity 
         key={`tagContainer-${key}`}
-        style={[styles.tagContainer, props.tagContainerStyle, {...borderStyle, ...sharedContainerStyles}]}
+        ref={r => this[key] = r}
+        style={[styles.tagContainer, props.tagContainerStyle, {...borderStyle, ...sharedContainerStyles}, currentTag.containerStyle]}
+        onPress={this[tagIDHandler]}
+        {...{onPressIn, onPressOut}}
       >
         <Text
           key={`tagText-${key}`}
-          style={[styles.tagText, styles.tagTextStyle, {fontSize: charSize}]}>
+          style={[styles.tagText, styles.tagTextStyle, {fontSize: charSize}, currentTag.textStyle]}
+        >
           {tagText}
         </Text>
-      </View>
+      </TouchableOpacity>
     );
   };
 
   createTags = () => {
     const { styles, TAG_TYPE } = TagsGroup;
     const { tags: _tags, charSize, containerWidth, ...props } = this.props;
-    //create copy of tags
-    const tags = [..._tags];
+
+    //wrap and create copy of tags
+    const tagsCopy = TagsItem.wrapArray([..._tags]);
+    //extract text from tags
+    const tags = tagsCopy.map(tag => tag.text);
+
     const charWidth = (charSize / 1.5);
     
     //init with containerWidth prop
     let remainingWidth = containerWidth;
     
+    let tagIndex  = -1; //count how many iteration
+    let tagNumber = -1; //which is the current tag in tags prop
+
     let excess   = [];
     let tagTypes = [];
 
@@ -184,10 +262,17 @@ class TagsGroup extends React.Component {
           ((currTagType == TAG_TYPE.NLINE) && (prevTagType == TAG_TYPE.BREAK))? TAG_TYPE.RIGHT : 
           ((currTagType == TAG_TYPE.NLINE) && (prevTagType == TAG_TYPE.LEFT ))? TAG_TYPE.RIGHT : TAG_TYPE.FULL
         );
+          
+        if(nextTagType == TAG_TYPE.FULL){
+          //new tag added
+          tagNumber++;
+        };
 
         remainingWidth -= textWidth;
         tagTypes.push(nextTagType);
-        compCols.push(this.createTagComp(nextTagType, tag));
+        compCols.push(
+          this.createTagComp(nextTagType, tag, tagNumber, ++tagIndex)
+        );
 
       } else if((textWidth > remainingWidth) && !isFull){
         const excessWidth = ((textWidth >= remainingWidth)
@@ -208,6 +293,11 @@ class TagsGroup extends React.Component {
           ((currTagType == TAG_TYPE.NLINE) && (prevTagType == TAG_TYPE.LEFT ))? TAG_TYPE.BREAK :
           ((currTagType == TAG_TYPE.NLINE) && (prevTagType == TAG_TYPE.BREAK))? TAG_TYPE.BREAK : TAG_TYPE.LEFT
         );
+
+        if(nextTagType == TAG_TYPE.LEFT){
+          //new tag added
+          tagNumber++;
+        };
         
         if(nextTagType == null) {
           //null means skip, readd to tags list
@@ -218,7 +308,7 @@ class TagsGroup extends React.Component {
         } else {
           tagTypes.push(nextTagType);
           compCols.push(
-            this.createTagComp(nextTagType, textThatFits)
+            this.createTagComp(nextTagType, textThatFits, tagNumber, ++tagIndex)
           );
 
           excess.push(textExcess);
@@ -278,7 +368,9 @@ export default class App extends React.Component {
 
   async componentDidMount(){
     //const worksURL = 'https://archiveofourown.org/tags/%E5%83%95%E3%81%AE%E3%83%92%E3%83%BC%E3%83%AD%E3%83%BC%E3%82%A2%E3%82%AB%E3%83%87%E3%83%9F%E3%82%A2%20%7C%20Boku%20no%20Hero%20Academia%20%7C%20My%20Hero%20Academia/works';
-    //const works = await AO3Parser.getWorksFromURL(worksURL);
+    //const worksRaw = await AO3Parser.getWorksFromURL(worksURL);
+    //const works    = WorkItem.wrapArray(worksRaw);
+    
     //Clipboard.setString(JSON.stringify(works));
     //console.log(works);
   };
@@ -286,17 +378,23 @@ export default class App extends React.Component {
   render() {
     const { styles } = App;
 
+    
+    const oldTags = ["Demon slayer is lit", "kimetsu no yaiba is amazing", "i still love bhna thooo", "mha and kny are both good", "stan tanjiro", "stan izuku", "izuku and tanjiro are both good boys uwu", "anime of the YEAR", "the animation?", "art style??", "so mf good", "my crops are watered", "I have been BLESSED by the anime gods", "thanks for the food", "i ship deku and kacchan", "fite me", "NEZUKO IS BEST GIRL", "not to be dramatic, but would die for her", "protect her at all cost", "nezuko deserves the world", "crying", "ya'll can clown me but idc", "i'm fuji and weaboo trash butttt ther's so much good anime this season and i'm like????", "i dont have time bb", "su is also good", "have you SEEN the new movie??", "pink diamond is trash", "i hate rose, fuck her", "spinel is baby", "spinel deserves love", "um greg universe", "also the mermaid sisters are fine af", "fucking bullshit song goes hardddd", "they deserved to WIN DAMN IT", "watch carole and tuesday", "its also good btw", "it's on netflix, so no excuses bb"];
+    const oldTagsConverted = oldTags.map(oldTag => ({text: oldTag, value: oldTag, containerStyle: {}, textStyle: {}}));
+
+    const tags = [
+      ...oldTagsConverted,
+      {text: 'Demon Slayer', value: 'Demon Slayer', containerStyle: { backgroundColor: 'red'    }, textStyle: {}},
+      {text: 'KNY'         , value: 'KNY'         , containerStyle: { backgroundColor: 'blue'   }, textStyle: {}},
+      {text: 'BNH'         , value: 'BNH'         , containerStyle: { backgroundColor: 'yellow' }, textStyle: {}},
+    ];
+
     return (
       <ScrollView style={styles.rootContainer}>
         <TagsGroup
           containerStyle={{alignSelf: 'center', marginBottom: 300}}
           containerWidth={screenWidth - 20}
-          tags={["Demon slayer is lit", "kimetsu no yaiba is amazing", "i still love bhna thooo", "mha and kny are both good", "stan tanjiro", "stan izuku", "izuku and tanjiro are both good boys uwu", "anime of the YEAR", "the animation?", "art style??", "so mf good", "my crops are watered", "I have been BLESSED by the anime gods", "thanks for the food", "i ship deku and kacchan", "fite me", "NEZUKO IS BEST GIRL", "not to be dramatic, but would die for her", "protect her at all cost", "nezuko deserves the world", "crying", "ya'll can clown me but idc", "i'm fuji and weaboo trash butttt ther's so much good anime this season and i'm like????", "i dont have time bb", "su is also good", "have you SEEN the new movie??", "pink diamond is trash", "i hate rose, fuck her", "spinel is baby", "spinel deserves love", "um greg universe", "also the mermaid sisters are fine af", "fucking bullshit song goes hardddd", "they deserved to WIN DAMN IT", "watch carole and tuesday", "its also good btw", "it's on netflix, so no excuses bb"]}
-        />
-        <TagsGroup
-          containerStyle={{alignSelf: 'center', marginBottom: 300}}
-          containerWidth={screenWidth - 20}
-          tags={["Demon slayer is lit", "kimetsu no yaiba is amazing", "i still love bhna thooo", "mha and kny are both good", "stan tanjiro", "stan izuku", "izuku and tanjiro are both good boys uwu", "anime of the YEAR", "the animation?", "art style??", "so mf good", "my crops are watered", "I have been BLESSED by the anime gods", "thanks for the food", "i ship deku and kacchan", "fite me", "NEZUKO IS BEST GIRL", "not to be dramatic, but would die for her", "protect her at all cost", "nezuko deserves the world", "crying", "ya'll can clown me but idc", "i'm fuji and weaboo trash butttt ther's so much good anime this season and i'm like????", "i dont have time bb", "su is also good", "have you SEEN the new movie??", "pink diamond is trash", "i hate rose, fuck her", "spinel is baby", "spinel deserves love", "um greg universe", "also the mermaid sisters are fine af", "fucking bullshit song goes hardddd", "they deserved to WIN DAMN IT", "watch carole and tuesday", "its also good btw", "it's on netflix, so no excuses bb"]}
+          {...{tags}}
         />
       </ScrollView>
     );
