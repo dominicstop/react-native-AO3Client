@@ -13,8 +13,7 @@ export default {
   async getWorksFromURL(url = "") {
     try {
       const jsonStr = await RNAO3Scraper[NM_KEYS.getWorksFromURL](url);
-      const json = JSON.parse(jsonStr);
-      return json;
+      return JSON.parse(jsonStr);
       
     } catch(error){
       console.log(`Unable to retrieve webpage: ${url}`);
