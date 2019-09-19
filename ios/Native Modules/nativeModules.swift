@@ -32,7 +32,7 @@ class HeadlessBrowser: NSObject {
     _        urlStr : String                          ,
     resolver resolve: @escaping RCTPromiseResolveBlock, //call when success
     rejecter reject : @escaping RCTPromiseRejectBlock   //call when error/fail
-    ) -> Void {
+  ) -> Void {
     
     let url = URL(string: urlStr);
     let action: Action<HTMLPage> = browser.open(url!);
@@ -68,6 +68,10 @@ class AO3Scraper: NSObject {
   static func convertDataToString(data: Data) -> String {
     let htmlString = NSString(data: data, encoding: String.Encoding.utf8.rawValue)!;
     return "\(htmlString)";
+  };
+  
+  @objc static func requiresMainQueueSetup() -> Bool {
+    return false;
   };
   
   @objc func getWorksFromURL(
