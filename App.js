@@ -2,14 +2,22 @@ import React, { Fragment } from 'react';
 import PropTypes from 'prop-types';
 import { Platform, StyleSheet, Text, View, Clipboard, ScrollView, Dimensions, TextInput, TouchableOpacity, FlatList } from 'react-native';
 
-import { WorkList } from 'components/WorkList';
+import { ROUTES } from './src/constants/navRoutes';
 
-import AO3Parser from 'native_modules/AO3Parser';
-import { WorkItem } from 'models/workModel';
+import { AuthLoadingScreen } from './src/screens/authLoadingScreen';
+import { SafeAreaProvider } from 'react-native-safe-area-context';
+
+import { createAppContainer, createSwitchNavigator } from 'react-navigation';
+import { createStackNavigator } from 'react-navigation-stack';
+
+import { WorkList } from './src/components/WorkList';
+
+import AO3Parser from './src/native_modules/AO3Parser';
+import { WorkItem } from './src/models/workModel';
 
 import { BNHAWork01 } from './test_data/workList';
 
-export default class App extends React.Component {
+class OldApp extends React.Component {
   static styles = StyleSheet.create({
     rootContainer: {
       flex: 1,
@@ -28,6 +36,9 @@ export default class App extends React.Component {
     const worksURL = 'https://archiveofourown.org/tags/%E5%83%95%E3%81%AE%E3%83%92%E3%83%BC%E3%83%AD%E3%83%BC%E3%82%A2%E3%82%AB%E3%83%87%E3%83%9F%E3%82%A2%20%7C%20Boku%20no%20Hero%20Academia%20%7C%20My%20Hero%20Academia/works';
     const worksRaw = await AO3Parser.getWorksFromURL(worksURL);
     const works    = WorkItem.wrapArray(worksRaw);
+
+    console.log('works retrieved');
+    console.log(works);
 
     this.setState({works});
   };
@@ -56,4 +67,22 @@ export default class App extends React.Component {
       </ScrollView>
     );
   }
+};
+
+const AppContainer = createAppContainer(
+  createSwitchNavigator({
+    [ROUTES.authLoadingRoute]: AuthLoadingScreen,
+  }, {
+    initialRouteName: ROUTES.authLoadingRoute,
+  })
+);
+
+export default class App extends React.Component {
+  render(){
+    return (
+      <SafeAreaProvider>
+        <AppContainer/>
+      </SafeAreaProvider>
+    );
+  };
 };

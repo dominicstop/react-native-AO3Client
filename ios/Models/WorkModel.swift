@@ -130,10 +130,9 @@ class WorkItem : Codable {
       let elTagsContainer: Element = try? elWorkItem.select("ul.tags.commas").first(),
       //get the container detail list element that holds all the work details
       let elDetailsContainer: Element = try? elWorkItem.select("dl.stats").first()
-      
-      else {
-        print("AO3HTMLParser - extractWorkList Error: Unable to extract header element");
-        //no link element to extract
+    else {
+      print("AO3HTMLParser - extractWorkList Error: Unable to extract header element");
+      //no link element to extract
         return nil;
     };
     
@@ -237,10 +236,10 @@ class WorkItem : Codable {
       //extract work fandom name + link as text
       let text = try? elFandomsLink.text(),
       let link = try? elFandomsLink.attr("href")
-      else {
-        print("AO3HTMLParser - extractWorkList Error: Unable to extract fandoms name + link.");
-        //no link element to extract
-        return ("", "");
+    else {
+      print("AO3HTMLParser - extractWorkList Error: Unable to extract fandoms name + link.");
+      //no link element to extract
+      return ("", "");
     };
     return(text, link);
   };
@@ -254,9 +253,9 @@ class WorkItem : Codable {
       let elRating: Element = try? elRatingContainer.select("span.text").first(),
       //extract rating text from span
       let rating: String = try? elRating.text()
-      else {
-        print("AO3HTMLParser - extractWorkList Error: Unable to extract archive warnings: rating");
-        return .unknown;
+    else {
+      print("AO3HTMLParser - extractWorkList Error: Unable to extract archive warnings: rating");
+      return .unknown;
     };
     //if theres's no matching enum, return unknown
     return ContentRating(rawValue: rating) ?? .unknown;
@@ -271,9 +270,9 @@ class WorkItem : Codable {
       let elWarning: Element = try? elWarningsContainer.select("span.text").first(),
       //extract rating text from span
       let rawWarningText: String = try? elWarning.text()
-      else {
-        print("AO3HTMLParser - extractWorkList Error: Unable to extract archive warnings: rating");
-        return [ContentWarnings]();
+    else {
+      print("AO3HTMLParser - extractWorkList Error: Unable to extract archive warnings: rating");
+      return [ContentWarnings]();
     };
     
     //convert to array of strings seperated by ","
@@ -294,10 +293,10 @@ class WorkItem : Codable {
       let elRelationships: Element = try? elRelationshipsContainer.select("span.text").first(),
       //extract rating text from span
       let rawRelationshipsText: String = try? elRelationships.text()
-      else {
-        print("AO3HTMLParser - extractWorkList Error: Unable to extract archive warnings: relationships");
-        //return .unknown;
-        return [ContentPairingType]();
+    else {
+      print("AO3HTMLParser - extractWorkList Error: Unable to extract archive warnings: relationships");
+      //return .unknown;
+      return [ContentPairingType]();
     };
     
     //convert to array of strings seperated by ","
@@ -320,9 +319,9 @@ class WorkItem : Codable {
       let statusText: String = try? elStatus.text(),
       //match text with enum equivalent
       let status = ContentWipStatus(rawValue: statusText)
-      else {
-        print("AO3HTMLParser - extractWorkList Error: Unable to extract archive warnings: wip status");
-        return .unknown;
+    else {
+      print("AO3HTMLParser - extractWorkList Error: Unable to extract archive warnings: wip status");
+      return .unknown;
     };
     return status;
   };
@@ -386,9 +385,9 @@ class WorkItem : Codable {
       let elCharacters: Elements = try? elTagsContainer.select("li.characters"),
       //make sure that there's at least one element
       (elCharacters.count > 0)
-      else {
-        print("AO3HTMLParser - extractWorkList Error: Unable to extract characters.");
-        return [Tag]();
+    else {
+      print("AO3HTMLParser - extractWorkList Error: Unable to extract characters.");
+      return [Tag]();
     };
     
     return elCharacters.compactMap { (elCharacter: Element) in
@@ -397,10 +396,10 @@ class WorkItem : Codable {
         //extract link text + link
         let text = try? elLink.text(),
         let link = try? elLink.attr("href")
-        else {
-          print("AO3HTMLParser - extractWorkList Error: Unable to extract char item");
-          //skip/goto next item
-          return nil;
+      else {
+        print("AO3HTMLParser - extractWorkList Error: Unable to extract char item");
+        //skip/goto next item
+        return nil;
       };
       
       return Tag(
@@ -417,9 +416,9 @@ class WorkItem : Codable {
       let elFreeforms: Elements = try? elTagsContainer.select("li.freeforms"),
       //make sure that there's at least one element
       (elFreeforms.count > 0)
-      else {
-        print("AO3HTMLParser - extractWorkList Error: Unable to extract elFreeform tags.");
-        return [Tag]();
+    else {
+      print("AO3HTMLParser - extractWorkList Error: Unable to extract elFreeform tags.");
+      return [Tag]();
     };
     
     return elFreeforms.compactMap { (elFreeform: Element) in
@@ -428,10 +427,10 @@ class WorkItem : Codable {
         //extract link text + link
         let text = try? elLink.text(),
         let link = try? elLink.attr("href")
-        else {
-          print("AO3HTMLParser - extractWorkList Error: Unable to extract freeform tag item");
-          //skip/goto next item
-          return nil;
+      else {
+        print("AO3HTMLParser - extractWorkList Error: Unable to extract freeform tag item");
+        //skip/goto next item
+        return nil;
       };
       
       return Tag(
@@ -448,9 +447,9 @@ class WorkItem : Codable {
       let elSummaryContainer: Element = try? elWorkItem.select("blockquote.userstuff.summary").first(),
       //get all the child paragraph elements, make sure that there's at least one element
       let elSummaries: Elements = (elSummaryContainer.children().count > 0) ? elSummaryContainer.children() : nil
-      else {
-        print("AO3HTMLParser - extractWorkList Error: Unable to extract summary.");
-        return [String]();
+    else {
+      print("AO3HTMLParser - extractWorkList Error: Unable to extract summary.");
+      return [String]();
     };
     //map p elements to string array
     return elSummaries.compactMap { try? $0.text() };
@@ -474,9 +473,9 @@ class WorkItem : Codable {
       let elWordCount: Element = try? elDetailsContainer.select("dd.words").first(),
       //extract word count from detail as text
       let rawWordCount = try? elWordCount.text()
-      else {
-        print("AO3HTMLParser - extractWorkList Error: Unable to extract word count.");
-        return 0;
+    else {
+      print("AO3HTMLParser - extractWorkList Error: Unable to extract word count.");
+      return 0;
     };
     
     //remove "," in wordCount, ex: "1,103"
@@ -492,9 +491,9 @@ class WorkItem : Codable {
       let elChapter: Element = try? elDetailsContainer.select("dd.chapters").first(),
       //extract word count from detail as text
       let rawChapterText = try? elChapter.text()
-      else {
-        print("AO3HTMLParser - extractWorkList Error: Unable to extract chapter count.");
-        return ChapterCount(chapterText: "", chapterCount: 0, chapterTotal: 0);
+    else {
+      print("AO3HTMLParser - extractWorkList Error: Unable to extract chapter count.");
+      return ChapterCount(chapterText: "", chapterCount: 0, chapterTotal: 0);
     };
     
     //split by "/", ex: "1/2" to ["1", "2"];
@@ -524,9 +523,9 @@ class WorkItem : Codable {
       //extract text + link as string
       let commentText: String = try? elComment.text(),
       let commentLink: String = try? elComment.attr("href")
-      else {
-        print("AO3HTMLParser - extractWorkList Error: Unable to extract comment count.");
-        return (0, "");
+    else {
+      print("AO3HTMLParser - extractWorkList Error: Unable to extract comment count.");
+      return (0, "");
     };
     
     return (
@@ -545,9 +544,9 @@ class WorkItem : Codable {
       //extract text + link as string
       let kudosText: String = try? elKudos.text(),
       let kudosLink: String = try? elKudos.attr("href")
-      else {
-        print("AO3HTMLParser - extractWorkList Error: Unable to extract kudos count.");
-        return (0, "");
+    else {
+      print("AO3HTMLParser - extractWorkList Error: Unable to extract kudos count.");
+      return (0, "");
     };
     
     return (
@@ -563,9 +562,9 @@ class WorkItem : Codable {
       let elHitsCount: Element = try? elDetailsContainer.select("dd.hits").first(),
       //extract hits count from detail as text
       let rawHitsCount: String = try? elHitsCount.text()
-      else {
-        print("AO3HTMLParser - extractWorkList Error: Unable to extract hits count.");
-        return 0;
+    else {
+      print("AO3HTMLParser - extractWorkList Error: Unable to extract hits count.");
+      return 0;
     };
     
     //parse as Int
