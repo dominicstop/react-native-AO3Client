@@ -53,4 +53,8 @@ target 'AO3Client' do
   pod 'WKZombie'
   pod 'SwiftSoup'
 
+  pod 'react-native-safe-area', :path => '../node_modules/react-native-safe-area'
+
+  pod 'react-native-safe-area-context', :path => '../node_modules/react-native-safe-area-context'
+
 end
