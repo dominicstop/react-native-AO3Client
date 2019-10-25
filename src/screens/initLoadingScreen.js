@@ -2,21 +2,19 @@ import React, { Fragment } from 'react';
 import PropTypes from 'prop-types';
 import { Platform, StyleSheet, Text, View, Clipboard, ScrollView, Dimensions, TextInput, TouchableOpacity, FlatList, Alert } from 'react-native';
 
-import { SafeAreaConsumer } from 'react-native-safe-area-context';
-
 import { SimpleStore, STORE_KEYS } from '../functions/simpleStore';
+import AO3 from '../native_modules/AO3Parser';
 
 import { NavBarValues } from '../constants/uiValues';
-import { PURPLE } from '../constants/colors';
+import { PURPLE, BLUE } from '../constants/colors';
 import { ROUTES } from '../constants/navRoutes';
   
-export class AuthLoadingScreen extends React.Component {
-  static contextType = SafeAreaConsumer;
-
+export class InitLoadingScreen extends React.Component {
   static styles = StyleSheet.create({
     rootContainer: {
-      flex: 1,
-      backgroundColor: PURPLE.A700,
+      width: '100%',
+      height: '100%',
+      backgroundColor: BLUE.A700,
     },
   });
 
@@ -30,26 +28,23 @@ export class AuthLoadingScreen extends React.Component {
 
   async componentDidMount(){
     const { navigation } = this.props;
-    const insets = this.context;
 
     try {
-      //set and cache inset values
-      NavBarValues.safeAreaInsets = insets;
-      const mediaCategories = await SimpleStore.read(STORE_KEYS.mediaCategories);
-      
-      navigation.navigate(mediaCategories
-        ? ROUTES.appNavRoute 
-        : ROUTES.initLoadingRoute
-      );
+      const categories = await AO3.getFandomMediaCategories();
+      await SimpleStore.set(STORE_KEYS.mediaCategories, categories);
+
+      console.log('categories');
+      console.log(categories);
 
     } catch(error){
-      Alert.alert('Error', 'Unable initialize values.');
-      navigation.navigate( ROUTES.browseCategoryRoute);
+      console.log(error);
     };
+
+    navigation.navigate(ROUTES.appNavRoute);
   };
 
   render(){
-    const { styles } = AuthLoadingScreen;
+    const { styles } = InitLoadingScreen;
     return(
       <View style={styles.rootContainer}>
         

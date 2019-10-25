@@ -74,17 +74,57 @@ class AO3Scraper: NSObject {
     return false;
   };
   
+  @objc func getFandomMediaCategories(
+    _        resolve: @escaping RCTPromiseResolveBlock, //call when success
+    rejecter reject : @escaping RCTPromiseRejectBlock   //call when error/fail
+  ) -> Void {
+  
+    ScrapeCategories.getCategories { result in
+      switch result {
+      case .success(let mediaFandomCategories):
+        do {
+          //serialize to json string
+          let jsonEncoder = JSONEncoder();
+          let jsonData    = try jsonEncoder.encode(mediaFandomCategories);
+          let jsonString  = String(data: jsonData, encoding: .utf8)!;
+           
+          //pass value to js
+          resolve(jsonString);
+           
+        } catch {
+          print("debug - getFandomMediaCategories action debug desc: \(error)");
+          reject(
+            "PARSE_ERROR",
+            "getFandomMediaCategories Error: unable to parse to json: \(error)",
+            nil
+          );
+        };
+        break;
+        
+      case .failure(let error):
+        print("debug - getFandomMediaCategories action debug desc: \(error)");
+        reject(
+          "PARSE_ERROR",
+          "getFandomMediaCategories Error: unable to fetch media fandom caregories: \(error)",
+          nil
+        );
+        break;
+      };
+    };
+  };
+  
   @objc func getWorksFromURL(
     _        urlStr : String                          ,
     resolver resolve: @escaping RCTPromiseResolveBlock, //call when success
     rejecter reject : @escaping RCTPromiseRejectBlock   //call when error/fail
-    ) -> Void {
+  ) -> Void {
     
     let url: URL! = URL(string: urlStr);
     let browser: WKZombie = WKZombie.sharedInstance;
     let action: Action<HTMLPage> = browser.open(url);
     
     print("getWorksFromURL - received url: \(urlStr)");
+    
     
     //load webpage
     action.start { result in

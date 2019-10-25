@@ -11,4 +11,9 @@ RCT_EXTERN_METHOD(getWorksFromURL:
     rejecter: (RCTPromiseRejectBlock )reject
 );
 
+RCT_EXTERN_METHOD(getFandomMediaCategories:
+              (RCTPromiseResolveBlock)resolve
+    rejecter: (RCTPromiseRejectBlock )reject
+);
+
 @end

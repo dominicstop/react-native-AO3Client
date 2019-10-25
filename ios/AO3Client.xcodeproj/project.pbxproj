@@ -12,6 +12,9 @@
 		13B07FBD1A68108700A75B9A /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = 13B07FB11A68108700A75B9A /* LaunchScreen.xib */; };
 		13B07FBF1A68108700A75B9A /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 13B07FB51A68108700A75B9A /* Images.xcassets */; };
 		13B07FC11A68108700A75B9A /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 13B07FB71A68108700A75B9A /* main.m */; };
+		8823FD27235AB2B500F7F1AA /* URLSession+Helper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8823FD26235AB2B500F7F1AA /* URLSession+Helper.swift */; };
+		8823FD29235BCAE500F7F1AA /* MediaFandomModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8823FD28235BCAE500F7F1AA /* MediaFandomModel.swift */; };
+		886A4F44235A7DE7008391D2 /* ScrapeCategories.swift in Sources */ = {isa = PBXBuildFile; fileRef = 886A4F43235A7DE6008391D2 /* ScrapeCategories.swift */; };
 		B65D64EA2330258B00FC9F76 /* WorkModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = B65D64E92330258B00FC9F76 /* WorkModel.swift */; };
 		B65D64ED2330294A00FC9F76 /* AO3HTMLParser.swift in Sources */ = {isa = PBXBuildFile; fileRef = B65D64EC2330294A00FC9F76 /* AO3HTMLParser.swift */; };
 		B6D3A90D232F75080021C34A /* nativeModules.swift in Sources */ = {isa = PBXBuildFile; fileRef = B6D3A90C232F75080021C34A /* nativeModules.swift */; };
@@ -30,6 +33,9 @@
 		2D16E6891FA4F8E400B85C8A /* libReact.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; path = libReact.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		6429C770FE4F02F061C7437A /* Pods-AO3Client.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-AO3Client.release.xcconfig"; path = "Target Support Files/Pods-AO3Client/Pods-AO3Client.release.xcconfig"; sourceTree = "<group>"; };
 		683EDECDC8A39C6136F582A0 /* libPods-AO3Client.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-AO3Client.a"; sourceTree = BUILT_PRODUCTS_DIR; };
+		8823FD26235AB2B500F7F1AA /* URLSession+Helper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "URLSession+Helper.swift"; sourceTree = "<group>"; };
+		8823FD28235BCAE500F7F1AA /* MediaFandomModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MediaFandomModel.swift; sourceTree = "<group>"; };
+		886A4F43235A7DE6008391D2 /* ScrapeCategories.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScrapeCategories.swift; sourceTree = "<group>"; };
 		B65D64E92330258B00FC9F76 /* WorkModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WorkModel.swift; sourceTree = "<group>"; };
 		B65D64EC2330294A00FC9F76 /* AO3HTMLParser.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AO3HTMLParser.swift; sourceTree = "<group>"; };
 		B6D3A90B232F75080021C34A /* AO3Client-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "AO3Client-Bridging-Header.h"; sourceTree = "<group>"; };
@@ -55,6 +61,8 @@
 		13B07FAE1A68108700A75B9A /* AO3Client */ = {
 			isa = PBXGroup;
 			children = (
+				8823FD25235AB22C00F7F1AA /* Extensions */,
+				886A4F42235A7CB7008391D2 /* Network */,
 				B65D64EB2330291F00FC9F76 /* AO3 */,
 				B65D64E82330254400FC9F76 /* Models */,
 				B6D3A90A232F74C60021C34A /* Native Modules */,
@@ -118,10 +126,27 @@
 			path = Pods;
 			sourceTree = "<group>";
 		};
+		8823FD25235AB22C00F7F1AA /* Extensions */ = {
+			isa = PBXGroup;
+			children = (
+				8823FD26235AB2B500F7F1AA /* URLSession+Helper.swift */,
+			);
+			path = Extensions;
+			sourceTree = "<group>";
+		};
+		886A4F42235A7CB7008391D2 /* Network */ = {
+			isa = PBXGroup;
+			children = (
+				886A4F43235A7DE6008391D2 /* ScrapeCategories.swift */,
+			);
+			path = Network;
+			sourceTree = "<group>";
+		};
 		B65D64E82330254400FC9F76 /* Models */ = {
 			isa = PBXGroup;
 			children = (
 				B65D64E92330258B00FC9F76 /* WorkModel.swift */,
+				8823FD28235BCAE500F7F1AA /* MediaFandomModel.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -278,10 +303,13 @@
 			files = (
 				B65D64EA2330258B00FC9F76 /* WorkModel.swift in Sources */,
 				B65D64ED2330294A00FC9F76 /* AO3HTMLParser.swift in Sources */,
+				886A4F44235A7DE7008391D2 /* ScrapeCategories.swift in Sources */,
 				13B07FBC1A68108700A75B9A /* AppDelegate.m in Sources */,
+				8823FD27235AB2B500F7F1AA /* URLSession+Helper.swift in Sources */,
 				B6D3A90D232F75080021C34A /* nativeModules.swift in Sources */,
 				B6D3A90F232F75250021C34A /* nativeModules.m in Sources */,
 				13B07FC11A68108700A75B9A /* main.m in Sources */,
+				8823FD29235BCAE500F7F1AA /* MediaFandomModel.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

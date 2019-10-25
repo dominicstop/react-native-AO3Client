@@ -1,6 +1,5 @@
 
 import Foundation;
-import WKZombie;
 import SwiftSoup;
 
 
@@ -53,12 +52,6 @@ enum ContentWipStatus: String, CaseIterable, Codable {
   static func withLabel(_ label: String) -> ContentWipStatus? {
     return self.allCases.first{ "\($0)" == label }
   };
-};
-
-struct MediaFandomItem {
-  let mediaType: String      ; //ex: Anime & Manga, Movies & TV, etc.
-  let mediaLink: String      ; //link to the fandom list for this media type
-  let fandoms  : [FandomItem]; //fandoms that belong to this media type
 };
 
 struct FandomItem : Codable {
@@ -133,7 +126,7 @@ class WorkItem : Codable {
     else {
       print("AO3HTMLParser - extractWorkList Error: Unable to extract header element");
       //no link element to extract
-        return nil;
+      return nil;
     };
     
     self.workID = (try? elWorkItem.attr("id")) ?? "";

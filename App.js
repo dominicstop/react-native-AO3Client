@@ -5,17 +5,19 @@ import { Platform, StyleSheet, Text, View, Clipboard, ScrollView, Dimensions, Te
 import { ROUTES } from './src/constants/navRoutes';
 
 import { AuthLoadingScreen } from './src/screens/authLoadingScreen';
-import { SafeAreaProvider } from 'react-native-safe-area-context';
+import { InitLoadingScreen } from './src/screens/initLoadingScreen';
+
+import { HomeScreen           } from './src/screens/homeScreen';
+import { BrowseCategoryScreen } from './src/screens/browseCategoryScreen';
 
 import { createAppContainer, createSwitchNavigator } from 'react-navigation';
 import { createStackNavigator } from 'react-navigation-stack';
+import { SafeAreaProvider } from 'react-native-safe-area-context';
 
 import { WorkList } from './src/components/WorkList';
 
 import AO3Parser from './src/native_modules/AO3Parser';
 import { WorkItem } from './src/models/workModel';
-
-import { BNHAWork01 } from './test_data/workList';
 
 class OldApp extends React.Component {
   static styles = StyleSheet.create({
@@ -69,15 +71,33 @@ class OldApp extends React.Component {
   }
 };
 
+const AppNavigator = createStackNavigator({
+    [ROUTES.homeRoute          ]: { screen: HomeScreen           },
+    [ROUTES.browseCategoryRoute]: { screen: BrowseCategoryScreen },
+  }, {
+    defaultNavigationOptions: {
+      headerTransparent: true,
+    },
+  }
+); 
+
 const AppContainer = createAppContainer(
   createSwitchNavigator({
     [ROUTES.authLoadingRoute]: AuthLoadingScreen,
+    [ROUTES.initLoadingRoute]: InitLoadingScreen,
+    [ROUTES.appNavRoute     ]: AppNavigator     ,
   }, {
     initialRouteName: ROUTES.authLoadingRoute,
   })
 );
 
 export default class App extends React.Component {
+  async componentDidMount(){
+    //const value = await AO3Parser.getFandomMediaCategories();
+    //console.log('debug - js getFandomMediaCategories:');
+    //console.log(value);
+  };
+
   render(){
     return (
       <SafeAreaProvider>
