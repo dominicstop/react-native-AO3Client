@@ -164,3 +164,68 @@ class AO3Scraper: NSObject {
   };
 };
 
+@objc(MeasureText)
+class MeasureText: NSObject {
+  static let weightMap = [
+    "normal": UIFont.Weight.regular   ,
+    "bold"  : UIFont.Weight.bold      ,
+    "100"   : UIFont.Weight.ultraLight,
+    "200"   : UIFont.Weight.thin      ,
+    "300"   : UIFont.Weight.light     ,
+    "400"   : UIFont.Weight.regular   ,
+    "500"   : UIFont.Weight.medium    ,
+    "600"   : UIFont.Weight.semibold  ,
+    "700"   : UIFont.Weight.bold      ,
+    "800"   : UIFont.Weight.heavy     ,
+    "900"   : UIFont.Weight.black     ,
+  ];
+  
+  @objc static func requiresMainQueueSetup() -> Bool {
+    return false;
+  };
+  
+  @objc func getHeightAndWidth(
+    //js func params
+    _          strings : NSArray  ,
+    fontName   fname   : String   ,
+    fontSize   fsize   : NSInteger,
+    fontWeight fweight : String   ,
+    //promise blocks
+    resolver resolve : @escaping RCTPromiseResolveBlock, //call when success
+    rejecter reject  : @escaping RCTPromiseRejectBlock   //call when error/fail
+  ) -> Void {
+    
+    guard
+      //cast nsarray to swift string array
+      let strings = strings as? [String],
+      let weight  = MeasureText.weightMap["100"],
+      let font = ((fname == "default" || fname.isEmpty)
+        ? UIFont.systemFont(ofSize: CGFloat(fsize))
+        : UIFont(name: fname, size: CGFloat(fsize))
+      )?.withWeight(weight)
+      
+    else {
+      let message = "MeasureText - getHeightAndWidth - unable to get width and height";
+      print("debug - \(message)");
+      reject("INIT_ERROR", message, nil);
+      return;
+    };
+    
+    let values = Dictionary<String, [String:Int]>(uniqueKeysWithValues: strings.map {
+      let dimensions = $0.SizeOf(font);
+      return ($0, [
+        "width" : Int(dimensions.width ),
+        "height": Int(dimensions.height),
+      ]);
+    })
+    
+    //print("debug - \(strings)");
+    //print("debug - \(values )");
+    //print("debug - \(fname  )");
+    //print("debug - \(fsize  )");
+    
+    resolve(values);
+    
+  };
+};
+

@@ -17,3 +17,16 @@ RCT_EXTERN_METHOD(getFandomMediaCategories:
 );
 
 @end
+
+@interface RCT_EXTERN_REMAP_MODULE(RNMeasureText, MeasureText, NSObject)
+
+RCT_EXTERN_METHOD(getHeightAndWidth:
+                (NSArray               )strings
+    fontName  : (NSString              )fname
+    fontSize  : (NSInteger             )fsize
+    fontWeight: (NSString              )fweight
+    resolver  : (RCTPromiseResolveBlock)resolve
+    rejecter  : (RCTPromiseRejectBlock )reject
+);
+
+@end

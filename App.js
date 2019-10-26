@@ -17,6 +17,7 @@ import { SafeAreaProvider } from 'react-native-safe-area-context';
 import { WorkList } from './src/components/WorkList';
 
 import AO3Parser from './src/native_modules/AO3Parser';
+import MeasureText from './src/native_modules/MeasureText';
 import { WorkItem } from './src/models/workModel';
 
 class OldApp extends React.Component {
@@ -96,6 +97,7 @@ export default class App extends React.Component {
     //const value = await AO3Parser.getFandomMediaCategories();
     //console.log('debug - js getFandomMediaCategories:');
     //console.log(value);
+    MeasureText.getHeightAndWidth();
   };
 
   render(){
