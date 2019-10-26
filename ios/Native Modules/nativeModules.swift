@@ -198,7 +198,7 @@ class MeasureText: NSObject {
     guard
       //cast nsarray to swift string array
       let strings = strings as? [String],
-      let weight  = MeasureText.weightMap["100"],
+      let weight  = MeasureText.weightMap[fweight],
       let font = ((fname == "default" || fname.isEmpty)
         ? UIFont.systemFont(ofSize: CGFloat(fsize))
         : UIFont(name: fname, size: CGFloat(fsize))
@@ -219,13 +219,7 @@ class MeasureText: NSObject {
       ]);
     })
     
-    //print("debug - \(strings)");
-    //print("debug - \(values )");
-    //print("debug - \(fname  )");
-    //print("debug - \(fsize  )");
-    
     resolve(values);
-    
   };
 };
 
