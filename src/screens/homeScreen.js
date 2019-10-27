@@ -4,6 +4,10 @@ import { Platform, StyleSheet, Text, View, Clipboard, ScrollView, Dimensions, Te
 
 import { NavBarValues } from '../constants/uiValues';
 import { TagsGroup, TagsItem } from '../components/TagsGroup';
+
+import { MeasureTextTest } from '../tests/measureText';
+
+
 import { PURPLE, VIOLET, INDIGO, BLUE, YELLOW, ORANGE, AMBER, RED } from '../constants/colors';
 
 import chroma from 'chroma-js'
@@ -36,14 +40,14 @@ const spacerTag = TagsItem.wrap({
     containerStyle: { backgroundColor: 'white' },
   })
 
-const tags = [spacerTag, ...tags1];
+const tags = [ ...tags1];
  
 export class HomeScreen extends React.Component {
   static styles = StyleSheet.create({
     rootContainer: {
       flex: 1,
       paddingTop: 40,
-      paddingHorizontal: 5,
+      paddingHorizontal: 0,
     },
   });
 
@@ -56,12 +60,15 @@ export class HomeScreen extends React.Component {
     return(
       <ScrollView style={styles.rootContainer}>
         <Text style={{paddingLeft: 5, paddingBottom: 10, fontWeight: '900', fontSize: 40, fontFamily: 'Avenir Next'}}>Lofi/Indie</Text>
-        <TagsGroup
-          containerStyle={{paddingBottom: 80}}
-          {...{tags}}
-          containerWidth={width - 10}
-          charSize={16}
-        />
+        
+        <View style={{backgroundColor: 'rgb(250,250,250)', borderColor: 'grey', borderWidth: 1}}>
+          <TagsGroup
+            containerStyle={{paddingVertical: 15}}
+            {...{tags}}
+            containerWidth={width}
+            charSize={16}
+          />
+        </View>
       </ScrollView>
     );
   };

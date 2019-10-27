@@ -207,7 +207,7 @@ class MeasureText: NSObject {
     else {
       let message = "MeasureText - getHeightAndWidth - unable to get width and height";
       print("debug - \(message)");
-      reject("INIT_ERROR", message, nil);
+      reject("E_INIT_ERROR", message, nil);
       return;
     };
     

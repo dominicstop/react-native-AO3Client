@@ -94,10 +94,14 @@ const AppContainer = createAppContainer(
 
 export default class App extends React.Component {
   async componentDidMount(){
-    //const value = await AO3Parser.getFandomMediaCategories();
-    //console.log('debug - js getFandomMediaCategories:');
-    //console.log(value);
-    MeasureText.getHeightAndWidth();
+    const res = await MeasureText.getHeightAndWidth({
+      strings   : ["Hello World 12"],
+      fontFamily: 'Helvetica',
+      fontSize  : 16,
+      fontWeight: '300',
+    });
+
+    console.log(res);
   };
 
   render(){

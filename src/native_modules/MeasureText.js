@@ -10,8 +10,16 @@ const NM_KEYS = {
 export default {
   RNMeasureText: RNMeasureText,
 
-  async getHeightAndWidth(){
-    const result = await RNMeasureText[NM_KEYS.getHeightAndWidth](["Test1", "Test3"], 'default', 12, '300');
-    console.log(result);
+  /** returns {"string": {width, height}} */
+  async getHeightAndWidth({strings = [], fontFamily = '', fontSize = 0, fontWeight = ''}){
+    try {
+      const result = await RNMeasureText[NM_KEYS.getHeightAndWidth](strings, fontFamily, fontSize, fontWeight);
+      return(result);
+      
+    } catch(error){
+      console.log(`MeasureText - getHeightAndWidth: Unable to get width/height`);
+      console.log(error);
+      return null;
+    };
   },
 };
