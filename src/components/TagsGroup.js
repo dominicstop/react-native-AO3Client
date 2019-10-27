@@ -80,7 +80,7 @@ export class TagsGroup extends React.Component {
     NLINE: 'NLINE', // \n
   };
 
-  createTagComp = (tagType = '', tagText = '', tagNumber = 0, tagIndex = 0) => {
+  createTagComp = (prevTagType = '', tagType = '', tagText = '', tagNumber = 0, tagIndex = 0) => {
     const { styles, TAG_TYPE } = TagsGroup;
     const { charSize, seperatorSize, innerPadding, tags, onPressTag, ...props } = this.props;
     const currentTag = TagsItem.wrap(tags[tagNumber]);
@@ -105,9 +105,15 @@ export class TagsGroup extends React.Component {
       };
     })();
 
-    const isTagTextShort = (tagText.length <= 5      );
-    const isLastTagInRow = (tagType == TAG_TYPE.LEFT );
-    const isOnlyTagInRow = (tagType == TAG_TYPE.BREAK);
+    const isTagTextShort  = (tagText.length <= 5      );
+    const isLastTagInRow  = (tagType == TAG_TYPE.LEFT );
+    const isOnlyTagInRow  = (tagType == TAG_TYPE.BREAK);
+    const isFirstTagInRow = (
+      tagType     == TAG_TYPE.RIGHT ||
+      prevTagType == TAG_TYPE.NLINE ||
+      tagIndex    == 0
+    );
+
 
     const textWidth   = (tagText.length * charWidth);
     const textPadding = (isTagTextShort
@@ -120,6 +126,10 @@ export class TagsGroup extends React.Component {
       //add right margin
       ...((!isLastTagInRow && !isOnlyTagInRow) && 
         { marginRight: seperatorSize }
+      ),
+      //add left margin
+      ...((isFirstTagInRow && tagType == TAG_TYPE.FULL) && 
+        { marginLeft: seperatorSize }
       ),
     };
     
@@ -238,12 +248,18 @@ export class TagsGroup extends React.Component {
         ? props.innerPadding * 2
         : props.innerPadding 
       );
-      
-      const extraSpace = (props.seperatorSize + innerPadding);
-      const textWidth  = (((tag.length || 0) * charWidth) + extraSpace);      
+
+      const extraSpace =  ((currTagType == TAG_TYPE.NLINE || tagIndex == 0)
+        ? props.seperatorSize * 2
+        : props.seperatorSize
+      );
+
+      const textWidth  = (
+        ((tag.length || 0) * charWidth) + (extraSpace + innerPadding)
+      );      
 
       if(isFull){
-        //insert a new row        
+        //insert a new row
         createRow(false);
 
         //record tag type
@@ -266,7 +282,7 @@ export class TagsGroup extends React.Component {
         remainingWidth -= textWidth;
         tagTypes.push(nextTagType);
         compCols.push(
-          this.createTagComp(nextTagType, tag, tagNumber, ++tagIndex)
+          this.createTagComp(currTagType, nextTagType, tag, tagNumber, ++tagIndex)
         );
 
       } else if((textWidth > remainingWidth) && !isFull){
@@ -283,7 +299,8 @@ export class TagsGroup extends React.Component {
         const textExcess   = tag.substr(midpoint, tag.length);
 
         const nextTagType = (
-          ((textThatFits == '') || (textThatFits == ' '))? null : 
+          ((textThatFits == '') || (textThatFits == ' '))? 1 :
+          ((textExcess   == '') || (textExcess   == ' '))? 2 :
           //textThatFits is not empty or whitespace
           ((currTagType == TAG_TYPE.NLINE) && (prevTagType == TAG_TYPE.LEFT ))? TAG_TYPE.BREAK :
           ((currTagType == TAG_TYPE.NLINE) && (prevTagType == TAG_TYPE.BREAK))? TAG_TYPE.BREAK : TAG_TYPE.LEFT
@@ -294,16 +311,25 @@ export class TagsGroup extends React.Component {
           tagNumber++;
         };
         
-        if(nextTagType == null) {
-          //null means skip, re-add to tags list
+        if(nextTagType == 1) {
+          //1 means skip, re-add to tags list
           tags.unshift(tag);          
+          //reset remaining
+          remainingWidth = 0;
+
+        } else if(nextTagType == 2) {
+          //1 means fit to prev, add to prev. row
+          tagTypes.push(TAG_TYPE.FULL);
+          compCols.push(
+            this.createTagComp(currTagType, TAG_TYPE.FULL, tag, ++tagNumber, ++tagIndex)
+          );
           //reset remaining
           remainingWidth = 0;
 
         } else {
           tagTypes.push(nextTagType);
           compCols.push(
-            this.createTagComp(nextTagType, textThatFits, tagNumber, ++tagIndex)
+            this.createTagComp(currTagType, nextTagType, textThatFits, tagNumber, ++tagIndex)
           );
 
           excess.push(textExcess);
